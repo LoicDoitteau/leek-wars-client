@@ -1482,19 +1482,14 @@
 					id: data.id,
 					name: this.leek.name,
 					level: this.leek.level,
-					life: this.leek.life,
-					strength: this.leek.strength,
-					wisdom: this.leek.wisdom,
-					agility: this.leek.agility,
-					resistance: this.leek.resistance,
-					frequency: this.leek.frequency,
-					science: this.leek.science,
-					magic: this.leek.magic,
-					tp: this.leek.tp,
-					mp: this.leek.mp,
 					weapons: this.leek.weapons.map(w => w.template),
 					chips: this.leek.chips.map(c => c.template)
 				})
+
+				for (const charac of LeekWars.characteristics) {
+					(newLeek as any)[charac] = (this.leek as any)['total_' + charac]
+				}
+
 				LeekWars.post('test-leek/update', {id: newLeek.id, data: JSON.stringify(newLeek)})
 				.then(_ => this.$router.push('/editor#leek-' + newLeek.id))
 				.error(error => LeekWars.toast(this.$t('error_' + error.error, error.params)))
